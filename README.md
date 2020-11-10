@@ -1,2 +1,5 @@
-# cesium_study
-Cesium开发入门篇、基础篇、高级篇、工具篇所有课程代码
+# cesium_training
+
+Cesium开发入门篇-1、基础篇-2、高级篇-3、工具篇-4所有课程代码
+
+本教程采用的Cesium的版本是1.75
