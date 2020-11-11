@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-  <title>Mapbox</title>
+  <title>WebMapService</title>
   <script src="../Build/Cesium/Cesium.js"></script>
   <link href="../Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
   <style>
@@ -36,28 +36,24 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
-    // 6、MapboxImageryProvider。Mapbox影像服务，根据mapId指定地图风格
-    var mapIds = [
-      "mapbox.satellite",
-      "mapbox.streets",
-      "mapbox.streets-basic",
-      "mapbox.light",
-      "mapbox.streets-satellite",
-      "mapbox.wheatpaste",
-      "mapbox.comic",
-      "mapbox.outdoors",
-      "mapbox.run-bike-hike",
-      "mapbox.pencil",
-      "mapbox.pirates",
-      "mapbox.emerald",
-      "mapbox.high-contrast",
-    ];
-    viewer.imageryLayers.addImageryProvider(
-      new Cesium.MapboxImageryProvider({
-        mapId: mapIds[1],
-        accessToken:
-          "pk.eyJ1IjoiYW56aGlodW4iLCJhIjoiY2lsdnhjdjN5MDFvMHVia3NpYTlnbmUzaSJ9.twlExCjpR7uwH2IiFC7aDA",
-      })
-    );
+    // 14、WebMapServiceImageryProvider。符合WMS规范的影像服务都可以通过该类封装，指定具体参数实现
+    // var provider = new Cesium.WebMapServiceImageryProvider({
+    //   url:
+    //     "https://sampleserver1.arcgisonline.com/ArcGIS/services/Specialty/ESRI_StatesCitiesRivers_USA/MapServer/WMSServer",
+    //   layers: "0",
+    //   proxy: new Cesium.DefaultProxy("/proxy/"),
+    // });
+
+    var provider = new Cesium.WebMapServiceImageryProvider({
+      url:
+        "https://nationalmap.gov.au/proxy/http://geoserver.nationalmap.nicta.com.au/geotopo_250k/ows",
+      layers: "Hydrography:bores",
+      parameters: {
+        transparent: true,
+        format: "image/png",
+      },
+    });
+
+    viewer.imageryLayers.addImageryProvider(provider);
   </script>
 </body>

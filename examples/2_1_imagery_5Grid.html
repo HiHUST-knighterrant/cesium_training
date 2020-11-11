@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-  <title>SingleTile</title>
+  <title>Grid</title>
   <script src="../Build/Cesium/Cesium.js"></script>
   <link href="../Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
   <style>
@@ -36,10 +36,15 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
-    // 9、SingleTileImageryProvider。单张图片的影像服务，适合离线数据或对影像数据要求并不高的场景下
-    var imagelayer = new Cesium.SingleTileImageryProvider({
-      url: "./images/worldimage.jpg",
+    // 5、GridImageryProvider。展示内部渲染网格划分情况，了解每个瓦片的精细度
+    var arcgisProvider = new Cesium.ArcGisMapServerImageryProvider({
+      url:
+        "https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
     });
-    viewer.imageryLayers.addImageryProvider(imagelayer);
+
+    viewer.imageryLayers.addImageryProvider(arcgisProvider);
+    var gridImagery = new Cesium.GridImageryProvider();
+    var gridImageryLayer = viewer.imageryLayers.addImageryProvider(gridImagery);
+    viewer.imageryLayers.raiseToTop(gridImageryLayer); //将图层置顶
   </script>
 </body>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-  <title>bingMap</title>
+  <title>WebMapTileService</title>
   <script src="../Build/Cesium/Cesium.js"></script>
   <link href="../Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
   <style>
@@ -36,22 +36,18 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
-    // 2、BingMapsImageryProvider。Bing地图影像，可以指定mapStyle，详见BingMapsStyle类
-    var bingStyle = [
-      Cesium.BingMapsStyle.AERIAL_WITH_LABELS,
-      Cesium.BingMapsStyle.COLLINS_BART,
-      Cesium.BingMapsStyle.CANVAS_GRAY,
-      Cesium.BingMapsStyle.CANVAS_LIGHT,
-      Cesium.BingMapsStyle.CANVAS_DARK,
-      Cesium.BingMapsStyle.ORDNANCE_SURVEY,
-      Cesium.BingMapsStyle.ROAD,
-      Cesium.BingMapsStyle.AERIAL,
+    // 1、createWorldImagery。为ion的默认全局基础图像图层（当前为Bing Maps）创建一个 IonImageryProvider 实例。
+
+    var styles = [
+      Cesium.IonWorldImageryStyle.AERIAL, // 航空影像
+      Cesium.IonWorldImageryStyle.AERIAL_WITH_LABELS, // 带有道路覆盖物的航空影像
+      Cesium.IonWorldImageryStyle.ROAD, // 没有其他图像的道路
     ];
-    var bingMapProvider = new Cesium.BingMapsImageryProvider({
-      url: "https://dev.virtualearth.net", //’'https://dev.virtualearth.net',
-      key: "AmXdbd8UeUJtaRSn7yVwyXgQlBBUqliLbHpgn2c76DfuHwAXfRrgS5qwfHU6Rhm8",
-      mapStyle: bingStyle[7],
+
+    var imageryProvider = Cesium.createWorldImagery({
+      style: styles[2],
     });
-    viewer.imageryLayers.addImageryProvider(bingMapProvider);
+
+    viewer.imageryLayers.addImageryProvider(imageryProvider);
   </script>
 </body>

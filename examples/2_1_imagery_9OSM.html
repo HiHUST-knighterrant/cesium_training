@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-  <title>arcgis</title>
+  <title>MapboxStyle</title>
   <script src="../Build/Cesium/Cesium.js"></script>
   <link href="../Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
   <style>
@@ -36,13 +36,13 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
-    // 1、ArcGisMapServerImageryProvider。支持ArcGIS Online和Server的相关服务
-    var arcgisProvider = new Cesium.ArcGisMapServerImageryProvider({
-      // url:
-      //   "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
-      url:
-        "https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+    // 9、OpenStreetMapImageryProvider。OSM影像服务，根据不同的url选择不同的风格
+    var osm = new Cesium.OpenStreetMapImageryProvider({
+      url: "https://a.tile.openstreetmap.org/",
+      minimumLevel: 0,
+      maximumLevel: 18,
+      fileExtension: "png",
     });
-    viewer.imageryLayers.addImageryProvider(arcgisProvider);
+    viewer.imageryLayers.addImageryProvider(osm);
   </script>
 </body>

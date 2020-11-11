@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-  <title>TileCoordinates</title>
+  <title>MapboxStyle</title>
   <script src="../Build/Cesium/Cesium.js"></script>
   <link href="../Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
   <style>
@@ -36,13 +36,21 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
-    // 10、TileCoordinatesImageryProvider。展示内部渲染网格划分情况
-    var imagelayer = new Cesium.SingleTileImageryProvider({
-      url: "./images/worldimage.jpg",
-    });
-    viewer.imageryLayers.addImageryProvider(imagelayer);
-    var tileCoordinates = new Cesium.TileCoordinatesImageryProvider();
-    var tileCoordinatesLayer = viewer.imageryLayers.addImageryProvider(tileCoordinates);
-    viewer.imageryLayers.raiseToTop(tileCoordinatesLayer); //将图层置顶
+    // 8、MapboxStyleImageryProvider,根据styleId指定地图风格
+    var styleIds = [
+      "streets-v11",
+      "outdoors-v11",
+      "light-v10",
+      "dark-v10",
+      "satellite-v9",
+      "msatellite-streets-v11",
+    ];
+    viewer.imageryLayers.addImageryProvider(
+      new Cesium.MapboxStyleImageryProvider({
+        styleId: styleIds[0],
+        accessToken:
+          "pk.eyJ1IjoiYW56aGlodW4iLCJhIjoiY2lsdnhjdjN5MDFvMHVia3NpYTlnbmUzaSJ9.twlExCjpR7uwH2IiFC7aDA",
+      })
+    );
   </script>
 </body>
