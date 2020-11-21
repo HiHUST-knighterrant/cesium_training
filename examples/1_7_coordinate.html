@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<head>
+  <title>Hello World</title>
+  <script src="../Build/Cesium/Cesium.js"></script>
+  <link href="../Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
+  <style>
+    html,
+    body,
+    #cesiumContainer {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    var viewer = new Cesium.Viewer("cesiumContainer", {
+      animation: false, // 动画小组件
+      baseLayerPicker: false, // 底图组件，选择三维数字地球的底图（imagery and terrain）。
+      fullscreenButton: false, // 全屏组件
+      vrButton: false, // VR模式
+      geocoder: false, // 地理编码（搜索）组件
+      homeButton: false, // 首页，点击之后将视图跳转到默认视角
+      infoBox: false, // 信息框
+      sceneModePicker: false, // 场景模式，切换2D、3D 和 Columbus View (CV) 模式。
+      selectionIndicator: false, //是否显示选取指示器组件
+      timeline: false, // 时间轴
+      navigationHelpButton: false, // 帮助提示，如何操作数字地球。
+      navigationInstructionsInitiallyVisible: false,
+    });
+
+    // 隐藏logo
+    viewer._cesiumWidget._creditContainer.style.display = "none";
+
+    // 获取屏幕坐标
+    var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+    handler.setInputAction((event) => {
+      console.log(event.position); // 屏幕坐标（像素值）
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+    // 屏幕坐标转为笛卡尔空间直角坐标
+
+    // 笛卡尔空间直角坐标转换为屏幕坐标
+
+    // 经纬度坐标转为笛卡尔空间直角坐标系
+    var ellipsoid = viewer.scene.globe.ellipsoid;
+    var cartographic = Cesium.Cartographic.fromDegrees(lng, lat, alt); //单位：度，度，米
+    var cartesian3 = ellipsoid.cartographicToCartesian(cartographic);
+    console.log(cartesian3.x + "," + cartesian3.y + "," + cartesian3.z); //单位：米，米，米
+
+    // 笛卡尔空间直角坐标系转为经纬度坐标
+    var ellipsoid = viewer.scene.globe.ellipsoid;
+    var cartesian3 = new Cesium.cartesian3(x, y, z); //单位：米，米，米
+    var cartographic = ellipsoid.cartesianToCartographic(cartesian3);
+    var lat = Cesium.Math.toDegrees(cartograhphic.latitude);
+    var lng = Cesium.Math.toDegrees(cartograhpinc.longitude);
+    var alt = cartographic.height;
+    console.log(lat + "," + lng + "," + alt); //单位：度，度，米
+
+    // 问题答案算法
+    var rotate = Cesium.Math.toRadians(d); //转成弧度
+    //quat为围绕这个z轴旋转d度的四元数
+    var quat = Cesium.Quaternion.fromAxisAngle(
+      Cesium.Cartesian3.UNIT_Z,
+      rotate
+    );
+    //rot_mat3为根据四元数求得的旋转矩阵
+    var rot_mat3 = Cesium.Matrix3.fromQuaternion(quat);
+    var v = new Cesium.Cartesian3(x, y, z); //p1的局部坐标
+    // m为旋转加平移的4x4变换矩阵，这里平移为(0,0,0)，故填个Cesium.Cartesian3.ZERO
+    var m = Cesium.Matrix4.fromRotationTranslation(
+      rot_mat3,
+      Cesium.Cartesian3.ZERO
+    );
+    m = Cesium.Matrix4.multiplyByTranslation(m, v); //m = m X v
+    //得到局部坐标原点的全局坐标
+    var cart3 = ellipsoid.cartographicToCartesian(
+      Cesium.Cartographic.fromDegrees(lng, lat, alt)
+    );
+    //m1为局部坐标的z轴垂直于地表，局部坐标的y轴指向正北的4x4变换矩阵
+    var m1 = Cesium.Transforms.eastNorthUpToFixedFrame(cart3);
+    m = Cesium.Matrix4.multiplyTransformation(m, m1); //m = m X m1
+    var p2 = Cesium.Matrix4.getTranslation(m); //根据最终变换矩阵m得到p2
+    console.log("x=" + p2.x + ",y=" + p2.y + ",z=" + p2.z);
+  </script>
+</body>

@@ -1,0 +1,91 @@
+<!--支持从VT MAK VR-TheWorld Server服务器请求的高度地图地形图。-->
+<!DOCTYPE html>
+<head>
+  <title>Hello World</title>
+  <script src="../Build/Cesium/Cesium.js"></script>
+  <link href="../Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
+  <style>
+    html,
+    body,
+    #cesiumContainer {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    var viewer = new Cesium.Viewer("cesiumContainer", {
+      shouldAnimate : true
+    });
+
+    // 隐藏logo
+    viewer._cesiumWidget._creditContainer.style.display = "none";
+
+    function createModel(url, height) {
+      viewer.entities.removeAll();
+      var position = Cesium.Cartesian3.fromDegrees(
+        -123.0744619,
+        44.0503706,
+        height
+      );
+      var heading = Cesium.Math.toRadians(135);
+      var pitch = 0;
+      var roll = 0;
+      var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
+      var orientation = Cesium.Transforms.headingPitchRollQuaternion(
+        position,
+        hpr
+      );
+
+      var entity = viewer.entities.add({
+        name: url,
+        position: position,
+        orientation: orientation,
+        model: {
+          uri: url,
+          minimumPixelSize: 128,
+          maximumScale: 20000,
+        },
+      });
+      viewer.trackedEntity = entity;
+    }
+    var url = "./data/models/DracoCompressed/CesiumMilkTruck.gltf";
+    // gltf模型的加载
+    createModel(url, 0);
+
+    var origin = Cesium.Cartesian3.fromDegrees(-120, 44.0, 0);
+    // 创建一个本地的东北向上坐标系，其原点为经度-120度，纬度44.0度。
+    // 可以随时更改模型的modelMatrix属性以移动模型。
+    var modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
+    var model = viewer.scene.primitives.add(
+      Cesium.Model.fromGltf({
+        url: url,
+        modelMatrix: modelMatrix,
+        minimumPixelSize: 128,
+        maximumScale: 20000,
+      })
+    );
+    model.readyPromise.then(function (model) {
+      // Play all animations when the model is ready to render
+      model.activeAnimations.addAll();
+    });
+
+    // 获取模型pick内容
+    var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+    handler.setInputAction(function (movement) {
+      var pick = viewer.scene.pick(movement.position);
+      if (
+        Cesium.defined(pick) &&
+        Cesium.defined(pick.node) &&
+        Cesium.defined(pick.mesh)
+      ) {
+        console.log("node: " + pick.node.name + ". mesh: " + pick.mesh.name);
+      }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+  </script>
+</body>
