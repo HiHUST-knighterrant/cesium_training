@@ -60,6 +60,7 @@
         // CENTER 原点位于 BASELINE 和 TOP 之间的垂直中心；BOTTOM 原点在对象的底部；
         // BASELINE 如果对象包含文本，则原点位于文本的基线，否则原点位于对象的底部；TOP 原点在对象的顶部
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM, // default: CENTER 垂直对齐位置 参考Cesium.VerticalOrigin
+
         // 获取或设置此广告牌的高度参考    type: HeightReference    default:HeightReference.NONE
         // NONE 位置绝对；CLAMP_TO_GROUND 位置固定在地形上；RELATIVE_TO_GROUND 位置高度是指地形上方的高度
         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
@@ -74,7 +75,7 @@
         height: 25, // default: undefined
 
         // 根据广告牌与相机的距离获取或设置广告牌的近和远缩放属性  type:NearFarScalar
-        scaleByDistance: new Cesium.NearFarScalar(1.0e3, 2.0, 0.5e6, 0.0),
+        scaleByDistance: new Cesium.NearFarScalar(1.0e3, 2.0, 2.0e3, 1.0),
         // 根据广告牌到相机的距离，获取或设置广告牌的近和远半透明属性  type:NearFarScalar
         translucencyByDistance: new Cesium.NearFarScalar(
           1.0e3,

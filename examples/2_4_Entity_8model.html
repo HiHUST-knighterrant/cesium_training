@@ -50,6 +50,25 @@
       position,
       hpr
     );
+    // Store the wheel's rotation over time in a SampledProperty.
+    var wheelAngleProperty = new Cesium.SampledProperty(Number);
+    var rotationProperty = new Cesium.CallbackProperty(function (time, result) {
+      return Cesium.Quaternion.fromAxisAngle(
+        Cesium.Cartesian3.UNIT_X,
+        wheelAngleProperty.getValue(time),
+        result
+      );
+    }, false);
+
+    var wheelTransformation = new Cesium.NodeTransformationProperty({
+      rotation: rotationProperty,
+    });
+
+    var nodeTransformations = {
+      Wheels: wheelTransformation,
+      Wheels_mid: wheelTransformation,
+      Wheels_rear: wheelTransformation,
+    };
 
     var url = "./data/models/CesiumAir/Cesium_Air.glb";
     var entity = viewer.entities.add({
@@ -57,10 +76,58 @@
       position: position,
       orientation: orientation,
       model: {
+        show: true,
         uri: url,
         scale: 1.0,
         minimumPixelSize: 128, // 模型的最小最小像素大小，而不考虑缩放
         maximumScale: 20000, // 模型的最大比例尺大小。 minimumPixelSize的上限
+        incrementallyLoadTextures: true, // 确定在加载模型后纹理是否可以继续流入
+        runAnimations: true, // 是否应启动模型中指定的glTF动画
+        clampAnimations: true, // glTF动画是否应在没有关键帧的持续时间内保持最后一个姿势
+        shadows: Cesium.ShadowMode.DISABLED,
+        heightReference: Cesium.HeightReference.NONE,
+        silhouetteColor: Cesium.Color.RED, // 轮廓的颜色
+        silhouetteSize: 0.0, // 轮廓的宽度
+        color: Cesium.Color.WHITE, // 模型的颜色
+
+        // 目标颜色和图元的源颜色之间混合的不同模式
+        // HIGHLIGHT 将源颜色乘以目标颜色;REPLACE 将源颜色替换为目标颜色;MIX 将源颜色和目标颜色混合在一起
+        colorBlendMode: Cesium.ColorBlendMode.HIGHLIGHT,
+        // 用于指定 colorBlendMode 为 MIX 时的颜色强度。值0.0会产生模型的着色，而值1.0会导致纯色，介于两者之间的任何值都会导致两者混合
+        colorBlendAmount: 0.5,
+        imageBasedLightingFactor: new Cesium.Cartesian2(1.0, 1.0), // 指定基于漫反射和镜面反射的图像照明的贡献
+        lightColor: undefined, // 为模型着色时指定浅色的属性。如果 undefined ，则使用场景的浅色。
+        // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+        //   1.0e3,
+        //   2.0e3
+        // ),
+        nodeTransformations: "",
+        articulations: {
+          "Fairing Open": {
+            epoch: "2019-06-01T16:00:00Z",
+            number: [0, 0, 600, 120],
+          },
+          "Fairing Separate": {
+            epoch: "2019-06-01T16:00:00Z",
+            number: [0, 0, 400, -50],
+          },
+          "Fairing Drop": {
+            epoch: "2019-06-01T16:00:00Z",
+            interpolationAlgorithm: "LAGRANGE",
+            interpolationDegree: 2,
+            number: [0, 0, 80, 0, 100, 0, 120, -1, 600, -120],
+          },
+        },
+        // 裁剪面
+        clippingPlanes: new Cesium.ClippingPlaneCollection({
+          planes: [
+            new Cesium.ClippingPlane(
+              new Cesium.Cartesian3(0.0, 0.0, -1.0),
+              0.0
+            ),
+          ],
+          edgeWidth: 1.0,
+        }),
       },
     });
     viewer.trackedEntity = entity;

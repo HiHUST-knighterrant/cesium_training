@@ -41,6 +41,7 @@
       name: "Circles and Ellipses",
       position: Cesium.Cartesian3.fromDegrees(-95.0, 40.0, 100000.0),
       ellipse: {
+        show: true,
         semiMajorAxis: 300000.0, // 长半轴距离
         semiMinorAxis: 150000.0, // 短半轴距离
 
@@ -63,6 +64,7 @@
         //   1.0e3,
         //   2.0e3
         // ),
+
         // 走廊在地面上时将对地形，3D tiles还是对两者进行分类  type:ClassificationType  default:ClassificationType.BOTH
         // TERRAIN 将仅对地形进行分类;CESIUM_3D_TILE 将仅对3D瓷砖进行分类;BOTH	将同时对Terrain和3D Tile进行分类。
         classificationType: Cesium.ClassificationType.BOTH,

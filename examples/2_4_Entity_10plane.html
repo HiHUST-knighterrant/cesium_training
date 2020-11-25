@@ -41,10 +41,21 @@
       name: "Blue plane",
       position: Cesium.Cartesian3.fromDegrees(-114.0, 40.0, 300000.0),
       plane: {
+        show: true,
         // 用于指定平面的法线和距离
         plane: new Cesium.Plane(Cesium.Cartesian3.UNIT_X, 0.0),
-        dimensions: new Cesium.Cartesian2(400000.0, 300000.0),
+        dimensions: new Cesium.Cartesian2(400000.0, 300000.0), // 指定平面的宽度和高度
+        fill: true,
         material: Cesium.Color.BLUE,
+        outline: false,
+        outlineColor: Cesium.Color.BLACK,
+        outlineWidth: 1.0,
+        shadows: Cesium.ShadowMode.DISABLED,
+        // type:DistanceDisplayCondition
+        // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+        //   1.0e3,
+        //   2.0e3
+        // ),
       },
     });
 

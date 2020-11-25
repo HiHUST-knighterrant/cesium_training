@@ -37,31 +37,18 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
-    viewer.entities.add({
-      position: Cesium.Cartesian3.fromDegrees(-75.59777, 40.03883),
-      point: {
-        show: true,
-        pixelSize: 10, // 像素大小
-        heightReference: Cesium.HeightReference.NONE,
-        color: Cesium.Color.YELLOW,
-        outlineColor: Cesium.Color.BLACK,
-        outlineWidth: 0,
-        scaleByDistance: new Cesium.NearFarScalar(1.0e3, 10.0, 2.0e3, 1.0),
-        translucencyByDistance: new Cesium.NearFarScalar(
-          1.0e3,
-          1.0,
-          1.5e6,
-          0.5
-        ),
-        // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
-        //   1.0e3,
-        //   2.0e3
-        // ),
-        // 获取或设置与相机的距离，在深度处禁用深度测试，例如，以防止剪切地形。
-        // 设置为零时，将始终应用深度测试。设置为Number.POSITIVE_INFINITY时，永远不会应用深度测试。
-        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+    // Satellites
+    var dataSource = Cesium.CzmlDataSource.load("./data/simple.czml");
+
+    // Vehicle
+    var dataSource = Cesium.CzmlDataSource.load("./data/Vehicle.czml");
+    viewer.scene.camera.setView({
+      destination: Cesium.Cartesian3.fromDegrees(-116.52, 35.02, 95000),
+      orientation: {
+        heading: 6,
       },
     });
-    viewer.zoomTo(viewer.entities);
+    
+    viewer.dataSources.add(dataSource);
   </script>
 </body>

@@ -41,6 +41,7 @@
       name: "Spheres and Ellipsoids",
       position: Cesium.Cartesian3.fromDegrees(-100.0, 40.0, 300000.0),
       ellipsoid: {
+        show: true,
         radii: new Cesium.Cartesian3(200000.0, 200000.0, 300000.0), // 椭球半径
         // innerRadii: new Cesium.Cartesian3(0.0, 0.0, 0.0), // 椭球内部半径
         minimumClock: 0.0, // 最小时钟角度
@@ -54,8 +55,8 @@
         outlineColor: Cesium.Color.YELLOW,
         outlineWidth: 1.0,
 
-        stackPartitions: 36, // 堆栈数的
-        slicePartitions: 24, // 径向切片数量
+        stackPartitions: 64, // 堆栈数
+        slicePartitions: 64, // 径向切片数量
         subdivisions: 128, // 每个轮廓环的样本数，确定曲率的粒度
 
         shadows: Cesium.ShadowMode.DISABLED,

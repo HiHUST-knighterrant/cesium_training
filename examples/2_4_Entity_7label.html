@@ -45,12 +45,41 @@
         300000.0
       ),
       label: {
-        text: "label",
+        show: true,
+        text: "label标签",
         font: "24px Helvetica",
+        // FILL	填充；OUTLINE 只显示边框；FILL_AND_OUTLINE 既有填充又有边框
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        scale: 1.0,
+        showBackground: true,
+        backgroundColor: Cesium.Color.BLUE,
+        backgroundPadding: new Cartesian2(7, 5),
+        pixelOffset: Cartesian2.ZERO,
+        eyeOffset: Cartesian3.ZERO,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        heightReference: Cesium.HeightReference.NONE,
         fillColor: Cesium.Color.SKYBLUE,
         outlineColor: Cesium.Color.BLACK,
         outlineWidth: 2,
-        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        translucencyByDistance: new Cesium.NearFarScalar(
+          1.0e3,
+          1.0,
+          1.5e6,
+          0.5
+        ),
+        pixelOffsetScaleByDistance: new Cesium.NearFarScalar(
+          1.0e3,
+          1.0,
+          1.5e6,
+          0.0
+        ),
+        scaleByDistance: new Cesium.NearFarScalar(1.0e3, 2.0, 2.0e3, 1.0),
+        // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+        //   1.0e3,
+        //   2.0e3
+        // ),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
       },
     });
     viewer.zoomTo(viewer.entities);
