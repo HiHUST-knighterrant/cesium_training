@@ -37,6 +37,20 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    function computeCircle(radius) {
+      var positions = [];
+      for (var i = 0; i < 360; i++) {
+        var radians = Cesium.Math.toRadians(i);
+        positions.push(
+          new Cesium.Cartesian2(
+            radius * Math.cos(radians),
+            radius * Math.sin(radians)
+          )
+        );
+      }
+      return positions;
+    }
+
     function computeStar(arms, rOuter, rInner) {
       var angle = Math.PI / arms;
       var length = 2 * arms;
@@ -54,6 +68,9 @@
     var redTube = viewer.entities.add({
       name: "Red tube with rounded corners",
       polylineVolume: {
+        show: true,
+
+        // 定义线带的 Cartesian3 位置的数组
         positions: Cesium.Cartesian3.fromDegreesArray([
           -85.0,
           32.0,
@@ -62,8 +79,32 @@
           -89.0,
           36.0,
         ]),
+
+        // 指定 Cartesian2 位置的数组，这些位置定义了要拉伸的形状
         shape: computeCircle(60000.0),
+
+        // 拐角的样式  type:CornerType
+        // ROUNDED	拐角有光滑的边缘;MITERED 拐角点是相邻边的交点;BEVELED	拐角被修剪。
+        cornerType: Cesium.CornerType.ROUNDED,
+
+        // 如果arcType不是ArcType.NONE，则指定每个纬度和经度之间的角距离
+        // granularity: Cesium.Math.RADIANS_PER_DEGREE,
+
+        fill: true,
+
         material: Cesium.Color.RED,
+
+        outline: false,
+        outlineColor: Cesium.Color.BLACK,
+        outlineWidth: 1.0,
+
+        shadows: Cesium.ShadowMode.DISABLED, // 体积是投射还是接收光源的阴影
+
+        // type:DistanceDisplayCondition
+        // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+        //   1.0e3,
+        //   2.0e3
+        // ),
       },
     });
 

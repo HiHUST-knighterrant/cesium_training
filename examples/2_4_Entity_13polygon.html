@@ -40,6 +40,8 @@
     var redPolygon = viewer.entities.add({
       name: "Red polygon on surface",
       polygon: {
+        show: true,
+        // 指定PolygonHierarchy
         hierarchy: Cesium.Cartesian3.fromDegreesArray([
           -115.0,
           37.0,
@@ -52,7 +54,35 @@
           -102.0,
           35.0,
         ]),
+        height: 0, // 多边形相对于椭球面的高度
+        heightReference: Cesium.HeightReference.NONE,
+        // extrudedHeight: 0, // 多边形的凸出面相对于椭球面的高度
+        // extrudedHeightReference: Cesium.HeightReference.NONE,
+        stRotation: 0.0, // 多边形纹理从北方逆时针旋转
+        granularity: Cesium.Math.RADIANS_PER_DEGREE, // 每个纬度和经度点之间的角距离
+        fill: true,
         material: Cesium.Color.RED,
+        outline: false,
+        outlineColor: Cesium.Color.BLACK,
+        outlineWidth: 1.0,
+        perPositionHeight: false, // 是否使用每个位置的高度
+
+        closeTop: true, // 如果为false，则将挤出的多边形顶部留空
+        closeBottom: true, // 如果为false，则将挤出的多边形的底部保留为开放状态
+
+        // 多边形边缘必须遵循的线型    type:ArcType 定义连接顶点应采用的路径。
+        // NONE 与椭圆表面不符的直线;GEODESIC 遵循测地路径;RHUMB	遵循大黄蜂或恶魔般的道路。
+        arcType: Cesium.ArcType.GEODESIC,
+        shadows: Cesium.ShadowMode.DISABLED,
+        // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+        //   1.0e3,
+        //   2.0e3
+        // ),
+        // 在地面上时将对地形，3D tiles还是对两者进行分类  type:ClassificationType  default:ClassificationType.BOTH
+        // TERRAIN 将仅对地形进行分类;CESIUM_3D_TILE 将仅对3D Tiles进行分类;BOTH	将同时对Terrain和3D Tiles进行分类。
+        classificationType: Cesium.ClassificationType.BOTH,
+        // 指定用于订购地面几何形状的z索引。仅在多边形为常数且未指定高度或拉伸高度的情况下才有效  type:ConstantProperty
+        zIndex: 0,
       },
     });
 
@@ -206,21 +236,21 @@
 
     // 改变材质
     // 方式一：通过类型创建材质
-    cyanPolygon.material = Cesium.Material.fromType("Color");
-    cyanPolygon.material.uniforms.color = Cesium.Color.BLUE;
+    // cyanPolygon.material = Cesium.Material.fromType("Color");
+    // cyanPolygon.material.uniforms.color = Cesium.Color.BLUE;
 
     // 方式二：创建一个默认材质
     // cyanPolygon.material = new Cesium.Material();
 
     // 方式三：通过Fabric方式
-    cyanPolygon.material = new Cesium.Material({
-      fabric: {
-        type: "Color",
-        uniforms: {
-          color: Cesium.Color.BLACK,
-        },
-      },
-    });
+    // cyanPolygon.material = new Cesium.Material({
+    //   fabric: {
+    //     type: "Color",
+    //     uniforms: {
+    //       color: Cesium.Color.BLACK,
+    //     },
+    //   },
+    // });
     viewer.zoomTo(viewer.entities);
   </script>
 </body>
