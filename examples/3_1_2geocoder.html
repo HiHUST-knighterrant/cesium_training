@@ -32,9 +32,9 @@
      * @returns {Promise<GeocoderService.Result[]>}
      */
     OpenStreetMapNominatimGeocoder.prototype.geocode = function (input) {
-      var endpoint = "https://nominatim.openstreetmap.org/search";
+      var url = "https://nominatim.openstreetmap.org/search";
       var resource = new Cesium.Resource({
-        url: endpoint,
+        url: url,
         queryParameters: {
           format: "json",
           q: input,
