@@ -38,10 +38,6 @@
 
     var scene = viewer.scene;
     var canvas = viewer.canvas;
-    // canvas.setAttribute("tabindex", "0"); // needed to put focus on the canvas
-    // canvas.onclick = function () {
-    //   canvas.focus();
-    // };
     var ellipsoid = scene.globe.ellipsoid;
 
     // disable the default event handlers
@@ -62,23 +58,6 @@
       moveLeft: false,
       moveRight: false,
     };
-
-    // var handler = new Cesium.ScreenSpaceEventHandler(canvas);
-
-    // handler.setInputAction(function (movement) {
-    //   flags.looking = true;
-    //   mousePosition = startMousePosition = Cesium.Cartesian3.clone(
-    //     movement.position
-    //   );
-    // }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
-
-    // handler.setInputAction(function (movement) {
-    //   mousePosition = movement.endPosition;
-    // }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-
-    // handler.setInputAction(function (position) {
-    //   flags.looking = false;
-    // }, Cesium.ScreenSpaceEventType.LEFT_UP);
 
     function getFlagForKeyCode(keyCode) {
       switch (keyCode) {

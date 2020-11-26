@@ -84,15 +84,94 @@
     //   Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
     // );
 
-    var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+    // 添加point Entity
+    viewer.entities.add({
+      position: Cesium.Cartesian3.fromDegrees(-97.5, 21.5),
+      point: {
+        pixelSize: 10, // 像素大小
+      },
+    });
 
+    // 添加polygon Entity
+    viewer.entities.add({
+      id: "entity_1",
+      name: "rectangle",
+      description: "这是一个矩形",
+      rectangle: {
+        coordinates: Cesium.Rectangle.fromDegrees(-100.0, 20.0, -97.5, 22.0),
+        material: Cesium.Color.GREEN,
+      },
+    });
+    viewer.zoomTo(viewer.entities);
+
+    // 添加polygon Primitive
+    var instance = new Cesium.GeometryInstance({
+      geometry: new Cesium.RectangleGeometry({
+        rectangle: Cesium.Rectangle.fromDegrees(-97.5, 20.0, -95.0, 22.0),
+        vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
+      }),
+      id: "rectangle-1",
+    });
+    viewer.scene.primitives.add(
+      new Cesium.Primitive({
+        geometryInstances: instance,
+        appearance: new Cesium.EllipsoidSurfaceAppearance({
+          material: Cesium.Material.fromType("Stripe"),
+        }),
+      })
+    );
+
+    // 加载gltf
+    var origin = Cesium.Cartesian3.fromDegrees(-97.5, 21.0, 0);
+    // 创建一个本地的东北向上坐标系，其原点为经度-97.5度，纬度21.0度。
+    // 可以随时更改模型的modelMatrix属性以移动模型。
+    var modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
+    var model = viewer.scene.primitives.add(
+      Cesium.Model.fromGltf({
+        url: "./data/models/DracoCompressed/CesiumMilkTruck.gltf",
+        modelMatrix: modelMatrix,
+        minimumPixelSize: 128,
+        maximumScale: 20000,
+      })
+    );
+
+    // 添加3D Tiles
+    var tileset = viewer.scene.primitives.add(
+      new Cesium.Cesium3DTileset({
+        url: "./data/Cesium3DTiles/Tilesets/Tileset/tileset.json",
+        modelMatrix: modelMatrix,
+      })
+    );
+    // viewer.zoomTo(tileset);
+
+    var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
     let eventType = Cesium.ScreenSpaceEventType.LEFT_CLICK;
     //注册事件
-    handler.setInputAction((event) => {
-      console.log(event);
-    }, eventType);
+    // handler.setInputAction((event) => {
+    //   console.log(event);
+    // }, eventType);
 
     //注销事件
-    handler.removeInputAction(eventType);
+    // handler.removeInputAction(eventType);
+
+    handler.setInputAction((event) => {
+      var picked = viewer.scene.pick(event.position);
+      // var pickeds = viewer.scene.drillPick(event.position);
+      // console.log(pickeds);
+      if (Cesium.defined(picked)) {
+        if (picked.id && picked.id instanceof Cesium.Entity) {
+          console.log("选中了Entity");
+        }
+        if (picked.primitive instanceof Cesium.Primitive) {
+          console.log("选中了Primitive");
+        }
+        if (picked.primitive instanceof Cesium.Model) {
+          console.log("选中了模型");
+        }
+        if (picked instanceof Cesium.Cesium3DTileFeature) {
+          console.log("选中了3DTile");
+        }
+      }
+    }, eventType);
   </script>
 </body>
