@@ -51,10 +51,12 @@
             0.6987471965556998,
           ])
         ),
+        // NONE 位置绝对；CLAMP_TO_GROUND 位置固定在地形上；RELATIVE_TO_GROUND 位置高度是指地形上方的高度
+        // heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
         // material: Cesium.Color.RED.withAlpha(0.5),
         material: "./images/Cesium_Logo_Color.jpg",
         // TERRAIN 将仅对地形进行分类;CESIUM_3D_TILE 将仅对3D Tiles进行分类;BOTH	将同时对Terrain和3D Tiles进行分类。
-        classificationType: Cesium.ClassificationType.BOTH,
+        classificationType: Cesium.ClassificationType.CESIUM_3D_TILE,
       },
     });
 
