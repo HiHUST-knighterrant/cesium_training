@@ -63,7 +63,11 @@
     );
     model.readyPromise.then(function (model) {
       // Play all animations when the model is ready to render
-      model.activeAnimations.addAll();
+      model.activeAnimations.addAll({
+        // type:ModelAnimationLoop
+        // NONE 只播放一次；REPEAT 从头开始循环播放；MIRRORED_REPEAT 首先，将其向前播放，然后反向播放，然后向前播放
+        loop: Cesium.ModelAnimationLoop.REPEAT, // 循环播放动画
+      });
     });
 
     viewer.zoomTo(viewer.entities);
