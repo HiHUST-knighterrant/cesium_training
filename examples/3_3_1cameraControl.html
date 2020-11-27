@@ -18,80 +18,147 @@
 <body>
   <div id="cesiumContainer"></div>
   <script>
-    var viewer = new Cesium.Viewer("cesiumContainer", {
-      animation: false, // 动画小组件
-      baseLayerPicker: true, // 底图组件，选择三维数字地球的底图（imagery and terrain）。
-      fullscreenButton: false, // 全屏组件
-      vrButton: false, // VR模式
-      geocoder: false, // 地理编码（搜索）组件
-      homeButton: true, // 首页，点击之后将视图跳转到默认视角
-      infoBox: false, // 信息框
-      sceneModePicker: false, // 场景模式，切换2D、3D 和 Columbus View (CV) 模式。
-      selectionIndicator: false, //是否显示选取指示器组件
-      timeline: false, // 时间轴
-      navigationHelpButton: false, // 帮助提示，如何操作数字地球。
-      navigationInstructionsInitiallyVisible: false, // 如果最初应该看到导航说明，则为true；如果直到用户明确单击该按钮，则该提示不显示，否则为false。
+    var viewer = new Cesium.Viewer("cesiumContainer");
+
+    /** flyTo方法 *****************************************************************************/
+    // 1. Fly to a position with a top-down view
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(-117.16, 32.71, 15000.0),
     });
 
-    // 隐藏logo
-    viewer._cesiumWidget._creditContainer.style.display = "none";
+    // 2. Fly to a Rectangle with a top-down view
+    viewer.camera.flyTo({
+      destination: Cesium.Rectangle.fromDegrees(west, south, east, north),
+    });
 
-    // 1——setView方法：Cartesian3方式
-    viewer.camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(
-        116.435314,
-        39.960521,
-        15000.0
-      ), // 设置位置
+    // 3. Fly to a position with an orientation using unit vectors.
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(-122.19, 46.25, 5000.0),
       orientation: {
-        heading: Cesium.Math.toRadians(20.0), // 方向
-        pitch: Cesium.Math.toRadians(-90.0), // 倾斜角度
-        roll: 0,
+        direction: new Cesium.Cartesian3(
+          -0.04231243104240401,
+          -0.20123236049443421,
+          -0.97862924300734
+        ),
+        up: new Cesium.Cartesian3(
+          -0.47934589305293746,
+          -0.8553216253114552,
+          0.1966022179118339
+        ),
       },
     });
 
-    // 1——setView方法：rectangle方式
-    view.camera.setView({
-      destination: Cesium.Rectangle.fromDegrees(0.0, 20.0, 10.0, 30.0), //west, south, east, north
+    // 4. Fly to a position with an orientation using heading, pitch and roll.
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(-122.19, 46.25, 5000.0),
       orientation: {
-        heading: Cesium.Math.toRadians(20.0), // 方向
-        pitch: Cesium.Math.toRadians(-90.0), // 倾斜角度
-        roll: 0,
+        heading: Cesium.Math.toRadians(175.0),
+        pitch: Cesium.Math.toRadians(-35.0),
+        roll: 0.0,
       },
     });
+    /** END flyTo方法 *****************************************************************************/
 
-    // 2——flyTo方法
-    view.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(
-        116.435314,
-        39.960521,
-        15000.0
-      ), // 设置位置
-      orientation: {
-        heading: Cesium.Math.toRadians(20.0), // 方向
-        pitch: Cesium.Math.toRadians(-90.0), // 倾斜角度
-        roll: 0,
-      },
-      duration: 5, // 设置飞行持续时间，默认会根据距离来计算
-      complete: function () {
-        // 到达位置后执行的回调函数
-      },
-      cancle: function () {
-        // 如果取消飞行则会调用此函数
-      },
-      pitchAdjustHeight: -90, // 如果摄像机飞越高于该值，则调整俯仰俯仰的俯仰角度，并将地球保持在视口中。
-      maximumHeight: 5000, // 相机最大飞行高度
-      flyOverLongitude: 100, // 如果到达目的地有2种方式，设置具体值后会强制选择方向飞过这个经度(这个，很好用)
-    });
-
-    // 3——lookAt方法
-    var center = Cesium.Cartesian3.fromDegrees(114.44455, 22.0444); //camera视野的中心点坐标
+    /** flyToBoundingSphere方法 *****************************************************************************/
+    var center = Cesium.Cartesian3.fromDegrees(-117.16, 32.71, 15000.0);
+    var radius = 10;
+    var boundingSphere = new Cesium.BoundingSphere(center, radius);
     var heading = Cesium.Math.toRadians(50.0);
     var pitch = Cesium.Math.toRadians(-20.0);
     var range = 5000.0;
-    view.camera.lookAt(
+    viewer.camera.flyToBoundingSphere(boundingSphere, {
+      offset: new Cesium.HeadingPitchRange(heading, pitch, range),
+    });
+    /** END flyToBoundingSphere方法 *****************************************************************************/
+
+    /** lookAt方法 *****************************************************************************/
+    // 1. Using a cartesian offset
+    var center = Cesium.Cartesian3.fromDegrees(-98.0, 40.0);
+    viewer.camera.lookAt(
+      center,
+      new Cesium.Cartesian3(0.0, -4790000.0, 3930000.0)
+    );
+
+    // 2. Using a HeadingPitchRange offset
+    var center = Cesium.Cartesian3.fromDegrees(-72.0, 40.0);
+    var heading = Cesium.Math.toRadians(50.0);
+    var pitch = Cesium.Math.toRadians(-20.0);
+    var range = 5000.0;
+    viewer.camera.lookAt(
       center,
       new Cesium.HeadingPitchRange(heading, pitch, range)
     );
+    /** END lookAt方法 *****************************************************************************/
+
+    /** lookAtTransform方法 *****************************************************************************/
+    // 1. Using a cartesian offset
+    var transform = Cesium.Transforms.eastNorthUpToFixedFrame(
+      Cesium.Cartesian3.fromDegrees(-98.0, 40.0)
+    );
+    viewer.camera.lookAtTransform(
+      transform,
+      new Cesium.Cartesian3(0.0, -4790000.0, 3930000.0)
+    );
+
+    // 2. Using a HeadingPitchRange offset
+    var transform = Cesium.Transforms.eastNorthUpToFixedFrame(
+      Cesium.Cartesian3.fromDegrees(-72.0, 40.0)
+    );
+    var heading = Cesium.Math.toRadians(50.0);
+    var pitch = Cesium.Math.toRadians(-20.0);
+    var range = 5000.0;
+    viewer.camera.lookAtTransform(
+      transform,
+      new Cesium.HeadingPitchRange(heading, pitch, range)
+    );
+    /** END lookAtTransform方法 *****************************************************************************/
+
+    /** setView方法 *****************************************************************************/
+    // 1. Set position with a top-down view
+    viewer.camera.setView({
+      destination: Cesium.Cartesian3.fromDegrees(-117.16, 32.71, 15000.0),
+    });
+
+    // 2 Set view with heading, pitch and roll
+    viewer.camera.setView({
+      destination: cartesianPosition,
+      orientation: {
+        heading: Cesium.Math.toRadians(90.0), // east, default value is 0.0 (north)
+        pitch: Cesium.Math.toRadians(-90), // default value (looking down)
+        roll: 0.0, // default value
+      },
+    });
+
+    // 3. Change heading, pitch and roll with the camera position remaining the same.
+    viewer.camera.setView({
+      orientation: {
+        heading: Cesium.Math.toRadians(90.0), // east, default value is 0.0 (north)
+        pitch: Cesium.Math.toRadians(-90), // default value (looking down)
+        roll: 0.0, // default value
+      },
+    });
+
+    // 4. View rectangle with a top-down view
+    viewer.camera.setView({
+      destination: Cesium.Rectangle.fromDegrees(west, south, east, north),
+    });
+
+    // 5. Set position with an orientation using unit vectors.
+    viewer.camera.setView({
+      destination: Cesium.Cartesian3.fromDegrees(-122.19, 46.25, 5000.0),
+      orientation: {
+        direction: new Cesium.Cartesian3(
+          -0.04231243104240401,
+          -0.20123236049443421,
+          -0.97862924300734
+        ),
+        up: new Cesium.Cartesian3(
+          -0.47934589305293746,
+          -0.8553216253114552,
+          0.1966022179118339
+        ),
+      },
+    });
+    /** END setView方法 *****************************************************************************/
   </script>
 </body>
