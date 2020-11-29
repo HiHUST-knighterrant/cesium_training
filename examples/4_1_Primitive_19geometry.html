@@ -38,18 +38,38 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
-    // Satellites
-    var dataSource = Cesium.CzmlDataSource.load("./data/simple.czml");
-
-    // Vehicle
-    var dataSource = Cesium.CzmlDataSource.load("./data/Vehicle.czml");
-    viewer.scene.camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(-116.52, 35.02, 95000),
-      orientation: {
-        heading: 6,
+    // Entity方式
+    viewer.entities.add({
+      rectangle: {
+        coordinates: Cesium.Rectangle.fromDegrees(-100.0, 20.0, -95.0, 25.0),
+        material: new Cesium.StripeMaterialProperty({
+          evenColor: Cesium.Color.WHITE,
+          oddColor: Cesium.Color.BLUE,
+          repeat: 5,
+        }),
       },
     });
-    
-    viewer.dataSources.add(dataSource);
+
+    // Primitive方式
+    //GeometryInstance是Geometry的一个容器
+    var instance = new Cesium.GeometryInstance({
+      geometry: new Cesium.RectangleGeometry({
+        rectangle: Cesium.Rectangle.fromDegrees(-95.0, 20.0, -90.0, 25.0),
+        vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
+      }),
+    });
+
+    //使用抽象的Primitive而不是RectanglePrimitive
+    viewer.scene.primitives.add(
+      new Cesium.Primitive({
+        geometryInstances: instance,
+        //使用该外观，可以使矩形覆盖在地球表面，或者悬浮一定的高度
+        appearance: new Cesium.EllipsoidSurfaceAppearance({
+          flat: true,
+          translucent: false,
+          material: Cesium.Material.fromType("Stripe"),
+        }),
+      })
+    );
   </script>
 </body>

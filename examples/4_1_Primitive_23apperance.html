@@ -38,18 +38,44 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
-    // Satellites
-    var dataSource = Cesium.CzmlDataSource.load("./data/simple.czml");
+    var scene = viewer.scene;
+    var circleInstance = new Cesium.GeometryInstance({
+      geometry: new Cesium.CircleGeometry({
+        center: Cesium.Cartesian3.fromDegrees(-95.0, 43.0),
+        radius: 250000.0,
+        vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
+      }),
+      attributes: {
+        color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+          new Cesium.Color(1.0, 0.0, 0.0, 0.5)
+        ),
+      },
+      id: "circle",
+    });
 
-    // Vehicle
-    var dataSource = Cesium.CzmlDataSource.load("./data/Vehicle.czml");
-    viewer.scene.camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(-116.52, 35.02, 95000),
-      orientation: {
-        heading: 6,
+    //下面的外观可用于定义一个不可进入的不透明的盒子
+    var appearance = new Cesium.PerInstanceColorAppearance({
+      translucent: false,
+      closed: true,
+    });
+
+    //下面的代码效果同上
+    var appearance1 = new Cesium.PerInstanceColorAppearance({
+      renderState: {
+        depthTest: {
+          enabled: true,
+        },
+        cull: {
+          enabled: true,
+          face: Cesium.CullFace.BACK,
+        },
       },
     });
-    
-    viewer.dataSources.add(dataSource);
+
+    var primitive = new Cesium.Primitive({
+      geometryInstances: circleInstance,
+      appearance: appearance,
+    });
+    scene.primitives.add(primitive);
   </script>
 </body>
