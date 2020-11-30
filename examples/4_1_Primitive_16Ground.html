@@ -37,6 +37,7 @@
       viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
     });
 
+    // 贴地/3DTiles线
     var positions = Cesium.Cartesian3.fromDegreesArray([
       -75.60217330403601,
       40.04102882709425,
@@ -96,6 +97,96 @@
         classificationType: Cesium.ClassificationType.BOTH, // TERRAIN CESIUM_3D_TILE BOTH
         debugShowBoundingVolume: false,
         debugShowShadowVolume: false,
+      })
+    );
+
+    // 创建Circle的几何实例
+    var circleInstance = new Cesium.GeometryInstance({
+      geometry: new Cesium.CircleGeometry({
+        center: Cesium.Cartesian3.fromDegrees(-75.6, 40.04), // 圆的中心点
+        radius: 100.0, // 圆的半径
+        vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT, // 要计算的顶点属性
+      }),
+      attributes: {
+        color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+          Cesium.Color.GREEN
+        ),
+      },
+    });
+
+    // 创建走廊几何实例
+    var corridorInstance = new Cesium.GeometryInstance({
+      geometry: new Cesium.CorridorGeometry({
+        positions: Cesium.Cartesian3.fromDegreesArray([
+          -75.59624838652453,
+          40.03795403572295,
+          -75.59587104290336,
+          40.03697022167725,
+          -75.59555000490342,
+          40.03608760913535,
+        ]),
+        width: 10, // 走廊边缘之间的距离
+        vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
+      }),
+      attributes: {
+        color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+          Cesium.Color.YELLOW
+        ),
+      },
+    });
+
+    // 创建椭圆几何实例
+    var ellipseInstance = new Cesium.GeometryInstance({
+      geometry: new Cesium.EllipseGeometry({
+        center: Cesium.Cartesian3.fromDegrees(-75.6, 40.0365), // 椭圆中心点
+        semiMajorAxis: 180.0, // 半长轴的长度
+        semiMinorAxis: 100.0, // 半短轴的长度
+        vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT, // 要计算的顶点属性
+      }),
+      attributes: {
+        color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+          Cesium.Color.RED
+        ),
+      },
+    });
+
+    // 创建多边形几何实例
+    var polygonInstance = new Cesium.GeometryInstance({
+      geometry: new Cesium.PolygonGeometry({
+        polygonHierarchy: new Cesium.PolygonHierarchy(
+          Cesium.Cartesian3.fromDegreesArray([
+            -75.5978,
+            40.0357,
+            -75.5978,
+            40.04,
+            -75.597,
+            40.04,
+            -75.597,
+            40.0357,
+          ])
+        ),
+        vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
+      }),
+      attributes: {
+        color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+          Cesium.Color.AQUA
+        ),
+      },
+    });
+
+    viewer.scene.primitives.add(
+      new Cesium.GroundPrimitive({
+        geometryInstances: [
+          circleInstance,
+          corridorInstance,
+          ellipseInstance,
+          polygonInstance,
+        ],
+        appearance: new Cesium.PerInstanceColorAppearance({
+          translucent: false,
+          closed: false,
+        }),
+        classificationType: Cesium.ClassificationType.BOTH,
       })
     );
   </script>
