@@ -20,5 +20,75 @@
   <div id="cesiumContainer"></div>
   <script>
     var viewer = new Cesium.Viewer("cesiumContainer");
+
+    var sphere = new Cesium.SphereGeometry({
+      radius: 100000.0, // 球体半径
+      stackPartitions: 64, // 延纬度线切割的次数
+      slicePartitions: 64, // 延经度线切割的次数
+      vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
+    });
+
+    var sphereInstance = new Cesium.GeometryInstance({
+      geometry: sphere,
+      modelMatrix: Cesium.Matrix4.multiplyByTranslation(
+        Cesium.Transforms.eastNorthUpToFixedFrame(
+          Cesium.Cartesian3.fromDegrees(-75, 40, 100000)
+        ),
+        new Cesium.Cartesian3(0.0, 0.0, 0.0),
+        new Cesium.Matrix4()
+      ),
+      id: "sphere",
+      attributes: {
+        color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+          Cesium.Color.BLUE
+        ),
+        show: new Cesium.ShowGeometryInstanceAttribute(true), //显示或者隐藏
+      },
+    });
+
+    viewer.scene.primitives.add(
+      new Cesium.Primitive({
+        geometryInstances: sphereInstance,
+        appearance: new Cesium.PerInstanceColorAppearance({
+          translucent: false,
+          closed: false,
+        }),
+      })
+    );
+
+    var sphereOutline = new Cesium.SphereOutlineGeometry({
+      radius: 100000.0, // 球体半径
+      stackPartitions: 64, // 延纬度线切割的次数
+      slicePartitions: 64, // 延经度线切割的次数
+      subdivisions: 200, // 每条线的点数，确定曲率的粒度
+    });
+
+    var sphereOutlineInstance = new Cesium.GeometryInstance({
+      geometry: sphereOutline,
+      modelMatrix: Cesium.Matrix4.multiplyByTranslation(
+        Cesium.Transforms.eastNorthUpToFixedFrame(
+          Cesium.Cartesian3.fromDegrees(-75, 40, 100000)
+        ),
+        new Cesium.Cartesian3(0.0, 0.0, 0.0),
+        new Cesium.Matrix4()
+      ),
+      id: "sphereOutline",
+      attributes: {
+        color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+          Cesium.Color.RED
+        ),
+        show: new Cesium.ShowGeometryInstanceAttribute(true), //显示或者隐藏
+      },
+    });
+
+    viewer.scene.primitives.add(
+      new Cesium.Primitive({
+        geometryInstances: sphereOutlineInstance,
+        appearance: new Cesium.PerInstanceColorAppearance({
+          translucent: false,
+          closed: false,
+        }),
+      })
+    );
   </script>
 </body>

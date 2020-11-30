@@ -19,6 +19,84 @@
 <body>
   <div id="cesiumContainer"></div>
   <script>
-    var viewer = new Cesium.Viewer("cesiumContainer");
+    var viewer = new Cesium.Viewer("cesiumContainer", {
+      terrainProvider: Cesium.createWorldTerrain(),
+    });
+
+    var tileset = new Cesium.Cesium3DTileset({
+      url: Cesium.IonResource.fromAssetId(40866),
+    });
+    viewer.scene.primitives.add(tileset);
+
+    tileset.readyPromise.then(function () {
+      var boundingSphere = tileset.boundingSphere;
+      viewer.camera.viewBoundingSphere(
+        boundingSphere,
+        new Cesium.HeadingPitchRange(0.0, -0.5, boundingSphere.radius + 500.0)
+      );
+      viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+    });
+
+    var positions = Cesium.Cartesian3.fromDegreesArray([
+      -75.60217330403601,
+      40.04102882709425,
+      -75.59968252414251,
+      40.04093615560871,
+      -75.598020153828,
+      40.04079437042357,
+      -75.59674934074435,
+      40.040816173283304,
+      -75.59630042791713,
+      40.03986900370842,
+      -75.59563636849978,
+      40.03930996506271,
+      -75.59492397899098,
+      40.03873932846581,
+      -75.59457991226778,
+      40.038392701955786,
+      -75.59424838652453,
+      40.03775403572295,
+      -75.59387104290336,
+      40.03677022167725,
+      -75.59355000490342,
+      40.03588760913535,
+    ]);
+    var groundPolyline = new Cesium.GroundPolylineGeometry({
+      positions: positions,
+      width: 5.0,
+      granularity: 9999.0, // 0表示没有插值
+      loop: false, // 线是否闭合，通过第一个点和最后一个点连线闭合
+      arcType: Cesium.ArcType.GEODESIC,
+    });
+
+    var groundPolylineInstance = new Cesium.GeometryInstance({
+      geometry: groundPolyline,
+      id: "groundPolyline",
+      attributes: {
+        color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+          Cesium.Color.BLUE
+        ),
+        show: new Cesium.ShowGeometryInstanceAttribute(true), //显示或者隐藏
+      },
+    });
+
+    viewer.scene.groundPrimitives.add(
+      new Cesium.GroundPolylinePrimitive({
+        geometryInstances: groundPolylineInstance,
+        appearance: new Cesium.PolylineColorAppearance({
+          translucent: false,
+        }),
+        show: true,
+        // 当 true 时，将交错几何图形顶点属性，这可以稍微改善渲染性能，但会增加加载时间。
+        interleave: false,
+        // 如果为 true ，则该原语不保留对输入的 geometryInstances 的引用以节省内存
+        releaseGeometryInstances: true,
+        allowPicking: true,
+        asynchronous: true,
+        classificationType: Cesium.ClassificationType.BOTH, // TERRAIN CESIUM_3D_TILE BOTH
+        debugShowBoundingVolume: false,
+        debugShowShadowVolume: false,
+      })
+    );
   </script>
 </body>

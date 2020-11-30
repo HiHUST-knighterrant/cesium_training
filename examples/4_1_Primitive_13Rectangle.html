@@ -20,5 +20,81 @@
   <div id="cesiumContainer"></div>
   <script>
     var viewer = new Cesium.Viewer("cesiumContainer");
+
+    var rectangle = new Cesium.RectangleGeometry({
+      rectangle: Cesium.Rectangle.fromDegrees(-80.0, 39.0, -74.0, 42.0), // 根据西、南、东、北坐标定义矩形
+      vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
+      ellipsoid: Cesium.Ellipsoid.WGS84,
+      granularity: Cesium.Math.RADIANS_PER_DEGREE, // 每一纬度和经度之间的距离，以弧度表示。确定缓冲区中的位置数
+      height: 10000.0,
+      rotation: 0.0,
+      stRotation: 0.0,
+      extrudedHeight: 0,
+    });
+
+    var rectangleInstance = new Cesium.GeometryInstance({
+      geometry: rectangle,
+      // modelMatrix: Cesium.Matrix4.multiplyByTranslation(
+      //   Cesium.Transforms.eastNorthUpToFixedFrame(
+      //     Cesium.Cartesian3.fromDegrees(-65, 40)
+      //   ),
+      //   new Cesium.Cartesian3(0.0, 0.0, 10.0),
+      //   new Cesium.Matrix4()
+      // ),
+      id: "rectangle",
+      attributes: {
+        color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+          Cesium.Color.BLUE
+        ),
+        show: new Cesium.ShowGeometryInstanceAttribute(true), //显示或者隐藏
+      },
+    });
+
+    viewer.scene.primitives.add(
+      new Cesium.Primitive({
+        geometryInstances: rectangleInstance,
+        appearance: new Cesium.PerInstanceColorAppearance({
+          translucent: false,
+          closed: false,
+        }),
+      })
+    );
+
+    var rectangleOutline = new Cesium.RectangleOutlineGeometry({
+      rectangle: Cesium.Rectangle.fromDegrees(-80.0, 39.0, -74.0, 42.0), // 根据西、南、东、北坐标定义矩形
+      ellipsoid: Cesium.Ellipsoid.WGS84,
+      granularity: Cesium.Math.RADIANS_PER_DEGREE, // 每一纬度和经度之间的距离，以弧度表示。确定缓冲区中的位置数
+      height: 10000.0,
+      rotation: 0.0,
+      extrudedHeight: 50000,
+    });
+
+    var rectangleOutlineInstance = new Cesium.GeometryInstance({
+      geometry: rectangleOutline,
+      // modelMatrix: Cesium.Matrix4.multiplyByTranslation(
+      //   Cesium.Transforms.eastNorthUpToFixedFrame(
+      //     Cesium.Cartesian3.fromDegrees(-65, 40)
+      //   ),
+      //   new Cesium.Cartesian3(0.0, 0.0, 10.0),
+      //   new Cesium.Matrix4()
+      // ),
+      id: "rectangleOutline",
+      attributes: {
+        color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+          Cesium.Color.RED
+        ),
+        show: new Cesium.ShowGeometryInstanceAttribute(true), //显示或者隐藏
+      },
+    });
+
+    viewer.scene.primitives.add(
+      new Cesium.Primitive({
+        geometryInstances: rectangleOutlineInstance,
+        appearance: new Cesium.PerInstanceColorAppearance({
+          translucent: false,
+          closed: false,
+        }),
+      })
+    );
   </script>
 </body>
