@@ -203,31 +203,6 @@
       });
     }
 
-    function invertClassification(checked) {
-      if (checked && !scene.invertClassificationSupported) {
-        window.alert("This browser does not support invert classification");
-      }
-
-      scene.invertClassification = checked;
-      scene.invertClassificationColor = new Cesium.Color(0.25, 0.25, 0.25, 1.0);
-
-      buildingHighlight.getGeometryInstanceAttributes(
-        "volume"
-      ).show = Cesium.ShowGeometryInstanceAttribute.toValue(!checked);
-      treeHighlight1.getGeometryInstanceAttributes(
-        "volume 1"
-      ).show = Cesium.ShowGeometryInstanceAttribute.toValue(!checked);
-      treeHighlight2.getGeometryInstanceAttributes(
-        "volume 2"
-      ).show = Cesium.ShowGeometryInstanceAttribute.toValue(!checked);
-      treeHighlight3.getGeometryInstanceAttributes(
-        "volume 3"
-      ).show = Cesium.ShowGeometryInstanceAttribute.toValue(!checked);
-      treeHighlight4.getGeometryInstanceAttributes(
-        "volume 4"
-      ).show = Cesium.ShowGeometryInstanceAttribute.toValue(!checked);
-    }
-
     var tileset = new Cesium.Cesium3DTileset({
       url: Cesium.IonResource.fromAssetId(40866),
     });
