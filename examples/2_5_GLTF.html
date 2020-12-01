@@ -41,9 +41,19 @@
       // 通过Quaternion为Entity.orientation属性指定a来控制模型的方向，控制模型的航向，俯仰和横滚。
       orientation: orientation,
       model: {
+        show: true,
         uri: "./data/models/DracoCompressed/CesiumMilkTruck.gltf",
-        minimumPixelSize: 128,
-        maximumScale: 20000,
+        scale: 1.0,
+        minimumPixelSize: 128, // 最小像素大小
+        maximumScale: 20000, // 模型的最大比例尺大小。 minimumPixelSize的上限
+        incrementallyLoadTextures: true, // 加载模型后纹理是否可以继续流入
+        runAnimations: true, // 是否应启动模型中指定的glTF动画
+        clampAnimations: true, // 指定glTF动画是否应在没有关键帧的持续时间内保持最后一个姿势
+
+        // 指定模型是否投射或接收来自光源的阴影 type:ShadowMode
+        // DISABLED	对象不投射或接收阴影;ENABLED 对象投射并接收阴影;CAST_ONLY	对象仅投射阴影;RECEIVE_ONLY	对象仅接收阴影
+        shadows: Cesium.ShadowMode.ENABLED,
+        heightReference: Cesium.HeightReference.NONE,
       },
     });
     // viewer.trackedEntity = entity; // 相机保持在实体上
