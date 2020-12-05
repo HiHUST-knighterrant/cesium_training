@@ -14,23 +14,22 @@
       overflow: hidden;
     }
 
-    /* 隐藏logo */
-    /* .cesium-widget-credits {
-      display: none !important;
-      visibility: hide !important;
-    } */
-
     /* 通过CSS控制组件显隐及位置 */
     .cesium-viewer-toolbar,             /* 右上角按钮组 */
     .cesium-viewer-animationContainer,  /* 左下角动画控件 */
     .cesium-viewer-timelineContainer,   /* 时间线 */
     .cesium-viewer-bottom               /* logo信息 */ {
-      /* display: none !important;
-      visibility: hide !important; */
+      /* display: none !important; */
     }
+
+    .cesium-widget-credits  /* 隐藏logo图片 */ {
+      /* display: none !important; */
+    }
+
     .cesium-viewer-fullscreenContainer  /* 全屏按钮 */ {
+      /* display: none !important;
       position: absolute;
-      top: 0;
+      top: 0; */
     }
   </style>
 </head>
@@ -49,7 +48,8 @@
       selectionIndicator: false, //是否显示选取指示器组件
       timeline: true, // 时间轴
       navigationHelpButton: false, // 帮助提示，如何操作数字地球。
-      navigationInstructionsInitiallyVisible: false, // 如果最初应该看到导航说明，则为true；如果直到用户明确单击该按钮，则该提示不显示，否则为false。
+      // 如果最初应该看到导航说明，则为true；如果直到用户明确单击该按钮，则该提示不显示，否则为false。
+      navigationInstructionsInitiallyVisible: false,
       // 天空盒效果
       skyBox: new Cesium.SkyBox({
         sources: {
