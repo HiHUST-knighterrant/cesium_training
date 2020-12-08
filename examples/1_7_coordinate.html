@@ -63,9 +63,12 @@
     var lng = 116.5,
       lat = 36.5,
       height = 10.0;
+    // 方法1：直接转换
+    // var cartesian3 = Cesium.Cartesian3.fromDegrees(lng, lat, height);
+
+    // 方法2：借助ellipsoid对象，先转换成弧度再转换
     var cartographic = Cesium.Cartographic.fromDegrees(lng, lat, height); //单位：度，度，米
-    // var cartesian3 = Cesium.Cartesian3.fromDegrees(lng, lat, height) // 方法1：直接转换
-    var cartesian3 = ellipsoid.cartographicToCartesian(cartographic); // 方法2：先转换成弧度再转换
+    var cartesian3 = ellipsoid.cartographicToCartesian(cartographic);
     console.log(cartesian3.x + "," + cartesian3.y + "," + cartesian3.z); //单位：米，米，米
     /////////////////////////////////////////////////////////////////////////////////////////////
 
