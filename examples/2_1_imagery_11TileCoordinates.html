@@ -40,10 +40,15 @@
     imageryLayers.remove(imageryLayers.get(0));
 
     // 11、TileCoordinatesImageryProvider。展示内部渲染网格划分情况
-    var imagelayer = new Cesium.SingleTileImageryProvider({
-      url: "./images/worldimage.jpg",
+    var arcgisProvider = new Cesium.ArcGisMapServerImageryProvider({
+      url:
+        "https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
     });
-    imageryLayers.addImageryProvider(imagelayer);
+    imageryLayers.addImageryProvider(arcgisProvider);
+
+    var gridImagery = new Cesium.GridImageryProvider();
+    imageryLayers.addImageryProvider(gridImagery);
+
     var tileCoordinates = new Cesium.TileCoordinatesImageryProvider();
     var tileCoordinatesLayer = imageryLayers.addImageryProvider(tileCoordinates);
     imageryLayers.raiseToTop(tileCoordinatesLayer); //将图层置顶
