@@ -36,15 +36,28 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    var imageryLayers = viewer.imageryLayers;
+    imageryLayers.remove(imageryLayers.get(0));
+
     // 13、UrlTemplateImageryProvider。指定url的format模版，方便用户实现自己的Provider，
     // 比如国内的高德，腾讯等影像服务，url都是一个固定的规范，都可以通过该Provider轻松实现。而OSM也是通过该类实现的。
-    
+
     // 加载高德底图
-    let layer = new Cesium.UrlTemplateImageryProvider({
-      url:
-        "https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
-      subdomains: ["1", "2", "3", "4"],
+    // let layer = new Cesium.UrlTemplateImageryProvider({
+    //   url:
+    //     "https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
+    //   subdomains: ["1", "2", "3", "4"],
+    // });
+    // imageryLayers.addImageryProvider(layer);
+
+    // 使用XYZ方式加载OSM影像服务
+    const osmImageryProvider = new Cesium.UrlTemplateImageryProvider({
+      url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      subdomains: ["a", "b", "c"],
     });
-    viewer.imageryLayers.addImageryProvider(layer);
+    imageryLayers.addImageryProvider(osmImageryProvider);
+    // 将OSM影像数据源组织为OSM影像图层并加入到影像图层容器中
+    // const xyzImageryLayer = new Cesium.ImageryLayer(xyzImageryProvider);
+    // imageryLayers.add(xyzImageryLayer);
   </script>
 </body>

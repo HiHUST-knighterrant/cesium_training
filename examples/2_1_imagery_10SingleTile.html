@@ -36,10 +36,13 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    var imageryLayers = viewer.imageryLayers;
+    imageryLayers.remove(imageryLayers.get(0));
+
     // 10、SingleTileImageryProvider。单张图片的影像服务，适合离线数据或对影像数据要求并不高的场景下
     var imagelayer = new Cesium.SingleTileImageryProvider({
       url: "./images/worldimage.jpg",
     });
-    viewer.imageryLayers.addImageryProvider(imagelayer);
+    imageryLayers.addImageryProvider(imagelayer);
   </script>
 </body>

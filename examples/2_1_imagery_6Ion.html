@@ -36,9 +36,12 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    var imageryLayers = viewer.imageryLayers;
+    imageryLayers.remove(imageryLayers.get(0));
+
     // 6、IonImageryProvider。Cesium Ion 在线服务
     // Add Sentinel-2 imagery
-    viewer.imageryLayers.addImageryProvider(
+    imageryLayers.addImageryProvider(
       new Cesium.IonImageryProvider({ assetId: 3954 })
     );
   </script>

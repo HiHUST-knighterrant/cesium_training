@@ -36,15 +36,18 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    var imageryLayers = viewer.imageryLayers;
+    imageryLayers.remove(imageryLayers.get(0));
+
     // 5、GridImageryProvider。展示内部渲染网格划分情况，了解每个瓦片的精细度
     var arcgisProvider = new Cesium.ArcGisMapServerImageryProvider({
       url:
         "https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
     });
 
-    viewer.imageryLayers.addImageryProvider(arcgisProvider);
+    imageryLayers.addImageryProvider(arcgisProvider);
     var gridImagery = new Cesium.GridImageryProvider();
-    var gridImageryLayer = viewer.imageryLayers.addImageryProvider(gridImagery);
-    viewer.imageryLayers.raiseToTop(gridImageryLayer); //将图层置顶
+    var gridImageryLayer = imageryLayers.addImageryProvider(gridImagery);
+    imageryLayers.raiseToTop(gridImageryLayer); //将图层置顶
   </script>
 </body>

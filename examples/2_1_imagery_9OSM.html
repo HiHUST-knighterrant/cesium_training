@@ -36,6 +36,9 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    var imageryLayers = viewer.imageryLayers;
+    imageryLayers.remove(imageryLayers.get(0));
+
     // 9、OpenStreetMapImageryProvider。OSM影像服务，根据不同的url选择不同的风格
     var osm = new Cesium.OpenStreetMapImageryProvider({
       url: "https://a.tile.openstreetmap.org/",
@@ -43,6 +46,6 @@
       maximumLevel: 18,
       fileExtension: "png",
     });
-    viewer.imageryLayers.addImageryProvider(osm);
+    imageryLayers.addImageryProvider(osm);
   </script>
 </body>

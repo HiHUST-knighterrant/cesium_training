@@ -36,6 +36,9 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    var imageryLayers = viewer.imageryLayers;
+    imageryLayers.remove(imageryLayers.get(0));
+
     // 4、GoogleEarthEnterpriseImageryProvider。
     // 使用谷歌Earth企业REST API提供瓦片图像，
     // 注意:此提供程序可与Google Earth Enterprise的3D Earth API一起使用， GoogleEarthEnterpriseMapsProvider 应该与2D Maps API一起使用。
@@ -45,6 +48,6 @@
     var googleEarthProvider = new Cesium.GoogleEarthEnterpriseImageryProvider({
       metadata: geeMetadata,
     });
-    viewer.imageryLayers.addImageryProvider(googleEarthProvider);
+    imageryLayers.addImageryProvider(googleEarthProvider);
   </script>
 </body>

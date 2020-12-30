@@ -36,6 +36,9 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    var imageryLayers = viewer.imageryLayers;
+    imageryLayers.remove(imageryLayers.get(0));
+
     // 7、MapboxImageryProvider。Mapbox影像服务，根据mapId指定地图风格
     var mapIds = [
       "mapbox.satellite",
@@ -52,11 +55,11 @@
       "mapbox.emerald",
       "mapbox.high-contrast",
     ];
-    viewer.imageryLayers.addImageryProvider(
+    imageryLayers.addImageryProvider(
       new Cesium.MapboxImageryProvider({
-        mapId: mapIds[1],
+        mapId: mapIds[0],
         accessToken:
-          "pk.eyJ1IjoiYW56aGlodW4iLCJhIjoiY2lsdnhjdjN5MDFvMHVia3NpYTlnbmUzaSJ9.twlExCjpR7uwH2IiFC7aDA",
+          "pk.eyJ1IjoibHM4NzAwNjEwMTEiLCJhIjoiY2tqYXZlZ2JrMDI5bTJzcDJmdDNteGhsNyJ9.0wTn4B1ce9Q4U5GnPso5iA",
       })
     );
   </script>

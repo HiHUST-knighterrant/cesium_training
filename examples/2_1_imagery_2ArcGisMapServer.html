@@ -36,6 +36,9 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    var imageryLayers = viewer.imageryLayers;
+    imageryLayers.remove(imageryLayers.get(0));
+
     // 2、ArcGisMapServerImageryProvider。支持ArcGIS Online和Server的相关服务
     var arcgisProvider = new Cesium.ArcGisMapServerImageryProvider({
       // url:
@@ -43,6 +46,6 @@
       url:
         "https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
     });
-    viewer.imageryLayers.addImageryProvider(arcgisProvider);
+    imageryLayers.addImageryProvider(arcgisProvider);
   </script>
 </body>

@@ -36,13 +36,16 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    var imageryLayers = viewer.imageryLayers;
+    imageryLayers.remove(imageryLayers.get(0));
+
     // 11、TileCoordinatesImageryProvider。展示内部渲染网格划分情况
     var imagelayer = new Cesium.SingleTileImageryProvider({
       url: "./images/worldimage.jpg",
     });
-    viewer.imageryLayers.addImageryProvider(imagelayer);
+    imageryLayers.addImageryProvider(imagelayer);
     var tileCoordinates = new Cesium.TileCoordinatesImageryProvider();
-    var tileCoordinatesLayer = viewer.imageryLayers.addImageryProvider(tileCoordinates);
-    viewer.imageryLayers.raiseToTop(tileCoordinatesLayer); //将图层置顶
+    var tileCoordinatesLayer = imageryLayers.addImageryProvider(tileCoordinates);
+    imageryLayers.raiseToTop(tileCoordinatesLayer); //将图层置顶
   </script>
 </body>

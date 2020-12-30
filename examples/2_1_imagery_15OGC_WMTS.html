@@ -36,33 +36,72 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    var imageryLayers = viewer.imageryLayers;
+    imageryLayers.remove(imageryLayers.get(0));
+
     // 15、WebMapTileServiceImageryProvider。服务WMTS1.0.0规范的影像服务，都可以通过该类实现，比如国内的天地图
 
     // Example 1. USGS shaded relief tiles (KVP)
+    // var shadedRelief1 = new Cesium.WebMapTileServiceImageryProvider({
+    //   url:
+    //     "http://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/WMTS",
+    //   layer: "USGSShadedReliefOnly",
+    //   style: "default",
+    //   format: "image/jpeg",
+    //   tileMatrixSetID: "default028mm",
+    //   // tileMatrixLabels : ['default028mm:0', 'default028mm:1', 'default028mm:2' ...],
+    //   maximumLevel: 19,
+    //   credit: new Cesium.Credit("U. S. Geological Survey"),
+    // });
+    // imageryLayers.addImageryProvider(shadedRelief1);
+
     var shadedRelief1 = new Cesium.WebMapTileServiceImageryProvider({
       url:
-        "http://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/WMTS",
-      layer: "USGSShadedReliefOnly",
+        "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/WMTS",
+      layer: "World_Imagery",
       style: "default",
       format: "image/jpeg",
       tileMatrixSetID: "default028mm",
-      // tileMatrixLabels : ['default028mm:0', 'default028mm:1', 'default028mm:2' ...],
-      maximumLevel: 19,
-      credit: new Cesium.Credit("U. S. Geological Survey"),
+      maximumLevel: 23,
     });
-    viewer.imageryLayers.addImageryProvider(shadedRelief1);
+    imageryLayers.addImageryProvider(shadedRelief1);
 
-
-    // var provider = new Cesium.WebMapTileServiceImageryProvider({
+    // Example 2. USGS shaded relief tiles (RESTful)
+    // var shadedRelief2 = new Cesium.WebMapTileServiceImageryProvider({
     //   url:
-    //     "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/{Time}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
-    //   layer: "MODIS_Terra_CorrectedReflectance_TrueColor",
+    //     "http://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/WMTS/tile/1.0.0/USGSShadedReliefOnly/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg",
+    //   layer: "USGSShadedReliefOnly",
     //   style: "default",
-    //   tileMatrixSetID: "250m",
-    //   maximumLevel: 5,
     //   format: "image/jpeg",
-    //   credit: "NASA Global Imagery Browse Services for EOSDIS",
+    //   tileMatrixSetID: "default028mm",
+    //   maximumLevel: 19,
+    //   credit: new Cesium.Credit("U. S. Geological Survey"),
     // });
-    // viewer.imageryLayers.addImageryProvider(provider);
+    // imageryLayers.addImageryProvider(shadedRelief2);
+
+    // Example 3. NASA time dynamic weather data (RESTful)
+    // var times = Cesium.TimeIntervalCollection.fromIso8601({
+    //   iso8601: "2015-07-30/2017-06-16/P1D",
+    //   dataCallback: function dataCallback(interval, index) {
+    //     return {
+    //       Time: Cesium.JulianDate.toIso8601(interval.start),
+    //     };
+    //   },
+    // });
+    // var weather = new Cesium.WebMapTileServiceImageryProvider({
+    //   url:
+    //     "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/AMSR2_Snow_Water_Equivalent/default/{Time}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png",
+    //   layer: "AMSR2_Snow_Water_Equivalent",
+    //   style: "default",
+    //   tileMatrixSetID: "2km",
+    //   maximumLevel: 5,
+    //   format: "image/png",
+    //   clock: clock,
+    //   times: times,
+    //   credit: new Cesium.Credit(
+    //     "NASA Global Imagery Browse Services for EOSDIS"
+    //   ),
+    // });
+    // imageryLayers.addImageryProvider(weather);
   </script>
 </body>

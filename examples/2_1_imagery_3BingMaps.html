@@ -36,6 +36,9 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    var imageryLayers = viewer.imageryLayers;
+    imageryLayers.remove(imageryLayers.get(0));
+
     // 3、BingMapsImageryProvider。Bing地图影像，可以指定mapStyle，详见BingMapsStyle类
     var bingStyle = [
       Cesium.BingMapsStyle.AERIAL_WITH_LABELS,
@@ -50,8 +53,8 @@
     var bingMapProvider = new Cesium.BingMapsImageryProvider({
       url: "https://dev.virtualearth.net", //’'https://dev.virtualearth.net',
       key: "AmXdbd8UeUJtaRSn7yVwyXgQlBBUqliLbHpgn2c76DfuHwAXfRrgS5qwfHU6Rhm8",
-      mapStyle: bingStyle[7],
+      mapStyle: bingStyle[4],
     });
-    viewer.imageryLayers.addImageryProvider(bingMapProvider);
+    imageryLayers.addImageryProvider(bingMapProvider);
   </script>
 </body>

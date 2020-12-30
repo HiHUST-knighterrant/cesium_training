@@ -36,12 +36,15 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
+    var imageryLayers = viewer.imageryLayers;
+    imageryLayers.remove(imageryLayers.get(0));
+
     // 12、TileMapServiceImageryProvider。访问瓦片图的Rest接口。瓦片图被转换为MapTiler或GDAL2Tiles.
     // 看文档是根据MapTiler规范，貌似是可以自己下载瓦片，发布服务，类似ArcGIS影像服务的过程
-    var tms = new Cesium.TileMapServiceImageryProvider({
+    var imagelayer = new Cesium.TileMapServiceImageryProvider({
       url: "//cesiumjs.org/tilesets/imagery/blackmarble",
       maximumLevel: 8,
     });
-    viewer.imageryLayers.raiseToTop(tms); //将图层置顶
+    imageryLayers.addImageryProvider(imagelayer);
   </script>
 </body>
