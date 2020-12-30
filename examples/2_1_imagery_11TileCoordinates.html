@@ -19,6 +19,7 @@
   <div id="cesiumContainer"></div>
   <script>
     var viewer = new Cesium.Viewer("cesiumContainer", {
+      terrainProvider: Cesium.createWorldTerrain(),
       animation: false, // 动画小组件
       baseLayerPicker: false, // 底图组件，选择三维数字地球的底图（imagery and terrain）。
       fullscreenButton: false, // 全屏组件
@@ -42,7 +43,7 @@
     // 11、TileCoordinatesImageryProvider。展示内部渲染网格划分情况
     var arcgisProvider = new Cesium.ArcGisMapServerImageryProvider({
       url:
-        "https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer",
     });
     imageryLayers.addImageryProvider(arcgisProvider);
 
