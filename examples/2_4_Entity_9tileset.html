@@ -37,18 +37,15 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
-    // Satellites
-    var dataSource = Cesium.CzmlDataSource.load("./data/simple.czml");
-
-    // Vehicle
-    var dataSource = Cesium.CzmlDataSource.load("./data/Vehicle.czml");
-    viewer.scene.camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(-116.52, 35.02, 95000),
-      orientation: {
-        heading: 6,
+    var tileset = viewer.entities.add({
+      name: "3D Tiles",
+      position: Cesium.Cartesian3.fromDegrees(-114.0, 40.0, 300000.0),
+      tileset: {
+        show: true,
+        uri: new Cesium.Plane(Cesium.Cartesian3.UNIT_X, 0.0),
       },
     });
-    
+
     viewer.dataSources.add(dataSource);
   </script>
 </body>

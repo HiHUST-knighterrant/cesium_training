@@ -37,7 +37,7 @@
     // 隐藏logo
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
-    var outlineOnly = viewer.entities.add({
+    var entity = viewer.entities.add({
       name: "Spheres and Ellipsoids",
       position: Cesium.Cartesian3.fromDegrees(-100.0, 40.0, 300000.0),
       ellipsoid: {
