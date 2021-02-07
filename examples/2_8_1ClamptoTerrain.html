@@ -61,8 +61,8 @@
       },
     });
 
-    // corridors、ellipse、 polygons and rectangles will be clamped automatically if they are filled with a constant color and
-    // has no height or extruded height.
+    // corridors、ellipse、 polygons and rectangles will be clamped automatically 
+    // if they are filled with a constant color and  has no height or extruded height.
     viewer.entities.add({
       position: Cesium.Cartesian3.fromDegrees(-122.195, 46.1915),
       corridor: {
@@ -121,7 +121,7 @@
 
     // set the classificationType to TERRAIN
     // corridor ellipse polygon polyline rectangle
-    // 其中polyline也可通过clampToGround控制
+    // 其中polyline 必须 设置clampToGround = true
     viewer.entities.add({
       polyline: {
         positions: Cesium.Cartesian3.fromDegreesArray([
