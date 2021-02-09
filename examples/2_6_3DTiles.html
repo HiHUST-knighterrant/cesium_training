@@ -87,7 +87,7 @@
     var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
     handler.setInputAction(function (movement) {
       var feature = viewer.scene.pick(movement.position);
-      if (Cesium.defined(feature)) {
+      if (Cesium.defined(feature) && feature instanceof Cesium.Cesium3DTileFeature) {
         var propertyNames = feature.getPropertyNames();
         var length = propertyNames.length;
         for (var i = 0; i < length; ++i) {
